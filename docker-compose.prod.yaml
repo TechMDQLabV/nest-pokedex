@@ -1,0 +1,31 @@
+version: '3'
+
+services: 
+  pokedexapp:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: pokedex-docker
+    container_name: pokedexapp
+    restart: always
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      MONGODB: ${MONGODB}
+      PORT: ${PORT}
+      DEFAULT_LIMIT: ${DEFAULT_LIMIT}
+    # volumes: 
+    #   - ./mongo/data:/data/db
+  
+  db:
+    image: mongo:5
+    container_name: mongo-poke
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGODB_DATABASE: pokemons
+    # volumes: 
+    #   - ./mongo/data:/data/db      
